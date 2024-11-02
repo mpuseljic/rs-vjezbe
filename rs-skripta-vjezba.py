@@ -124,5 +124,87 @@ d = "Mirna"
 print(a, b, c, d, sep="-") # Moje-ime-je-Mirna
 
 # 2. LOGIČKI IZRAZI
+a = 5
+b = 3
 
+print(a + b) # 8
+print(a - b) # 2
+print(a * b) # 15
+print(a / b) # 1.6666666666666667 (float)
+print(a // b) # 1 (int)
+print(a % b) # 2
+print(a ** b) # 125
 
+# funkcije nad realnim brojevima
+print(abs(-5)) # 5 (apsolutna vrijednost)
+print(round(3.14159, 2)) # 3.14 (zaokruživanje na n decimala)
+print(max(1, 2, 3, 4, 5)) # 5 (maksimalna vrijednost)
+print(min(1, 2, 3, 4, 5)) # 1 (minimalna vrijednost)
+
+import math
+
+print(math.sqrt(16)) # 4.0 (kvadratni korijen)
+print(math.pow(2, 3)) # 8.0 (potenciranje)
+
+print(math.exp(1)) # 2.718281828459045
+print(math.log(10)) # 2.302585092994046
+
+print(math.trunc(3.14)) # 3 (odbacuje decimalni dio)
+print(math.ceil(3.14)) # 4 (zaokružuje prema gore)
+print(math.floor(3.14)) # 3 (zaokružuje prema dolje)
+
+# Nekoliko praktičnih funkcija za testiranje konačnosti realnih brojeva koje su dostupne u math biblioteke
+import math
+
+print(math.isfinite(1.0)) # True (je li broj konačan)
+print(math.isinf(1.0)) # False (je li broj beskonačan tj. neizmjerno velik)
+
+print(math.isnan(1.0)) # False (je li broj NaN, tj. Not a Number)
+
+## OPERATORI USPOREDBE ##
+a = 5
+b = 10
+
+print(a == b) # False
+print(a != b) # True
+print(a > b) # False
+print(a < b) # True
+print(a >= b) # False
+print(a <= b) # True
+
+## FUNKCIJE ZA USPOREDBU REALNIH BROJEVA ##
+import fractions
+
+print(fractions.Fraction(5, 3) == 1 + fractions.Fraction(2, 3)) # True
+
+import decimal
+
+print(decimal.Decimal('0.1') * 3 == decimal.Decimal('0.3')) # True
+
+## LOGIČKI OPERATORI ##
+print(not True) # False
+print(5 and 3) # 3 - jer je 5 True, a 3 je zadnji argument
+print(0 and 3) # 0 - jer je 0 False, a 3 se neće ni provjeravati
+print(5 or 3) # 5 - jer je 5 True, a 3 se neće ni provjeravati
+print(0 or 3) # 3 - jer je 0 False, a 3 je zadnji argument
+
+## OPERATORI PRIPRADNOSTI ##
+a = [1, 2, 3, 4, 5]
+
+print(1 in a) # True
+print(6 in a) # False
+print(1 not in a) # False
+print(6 not in a) #True
+
+iks = 'x'
+print(iks in 'cvrčak') # False
+
+samoglasnici = 'aeiou'
+
+print('a' in samoglasnici) # True
+print('b' in samoglasnici) # False
+
+stabla = ['hrast' , 'bukva' , 'jar', 'bor']
+
+print('bukva' in stabla) # True
+print('jela' not in stabla) # True
