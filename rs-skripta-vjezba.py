@@ -283,3 +283,44 @@ while brojač < 11:
     print(brojač ** 2) # ispisujemo kvadrat broja
     brojač += 1 # povećamo brojač za 1
 print("Gotovo!")
+
+# FOR PETLJA 
+for i in range(10):
+    print(i)
+    
+# Ukoliko želimo ispisati brojeve od 1 do 10, možemo koristiti sljedeći kod
+for i in range(1, 11):
+    print(i)
+    
+# RANGE funkcija prima tri argumenta: početnu vrijednost, krajnju vrijednost i korak
+
+# Primjer kako ispisati tablicu kvadrata brojeva od 1 do 10:
+for x in range(1, 11):
+    print(x ** 2)
+    
+# Primjer kako ispisati svako slovo u riječi cvrčak
+for slovo in "cvrčak":
+    print(slovo)
+    
+# Proslijedimo li konstruktoru raspona tri argumenta, tada će treći argument biti interpretiran kao prirast
+# Stoga će sljedeće petlja ispisati kvadrate neparnih brojeva od 1 do 9:
+for i in range(1, 10, 2):
+    print(i ** 2)
+    
+# Ako želimo ispisati tablicu množenja brojeva od 1 do 10, to možemo jednostavno napraviti dvjema ugniježđenim petljama
+for redak in range(1, 11):
+    ispisRetka = ""
+    for stupac in range(1, 11):
+        umnozak = redak * stupac
+        ispisRetka += f"{umnozak:4}"
+    print(ispisRetka)
+    
+# U ovom primjeru koristimo f-stringove za formatiranje ispisa. f-string je moderna sintaksa za formatiranje znakovnih nizova u Pythonu
+# Ugrađuje vrijednost varijabli u znakovni niz
+# Ugrađivanje se vrši pomoću {} oznaka unutar znakovnog niza
+# Ukoliko želimo dodatno formatirati vrijednost, možemo koristiti dvotočku i specifikator formata
+# U ovom primjeru koristimo specifikator formata :4 kako bismo osigurali da svaki broj bude ispisivan na 4 mjesta 
+
+# PRIMJER: kako ćemo ispisati brojeve od 1 do 10 s prefiksom "Broj":
+for i in range(1, 11):
+    print(f"Broj: {i}")
