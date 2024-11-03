@@ -264,3 +264,22 @@ else:
     else:
         print("Veći je od tog broja!")
 print("Pokreni program ponovno za sljedeći pokušaj!")
+
+# 4. ITERACIJE
+# Iteracije se koriste za ponavljanje određenih dijelova koda. 
+# for i while petlje
+
+## WHILE PETLJA ##
+"""
+while <uvjetni_izraz>: # zaglavlje osnovnog stavka
+    <naredbe> # tijelo osnovnog stavka
+"""
+
+#inicijaliziramo vrijednost broja koji ćemo kvadrirati
+brojač = 1
+
+# petlja se nastavlja sve dok je brojač manji od 11
+while brojač < 11:
+    print(brojač ** 2) # ispisujemo kvadrat broja
+    brojač += 1 # povećamo brojač za 1
+print("Gotovo!")
