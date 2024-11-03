@@ -208,3 +208,59 @@ stabla = ['hrast' , 'bukva' , 'jar', 'bor']
 
 print('bukva' in stabla) # True
 print('jela' not in stabla) # True
+
+# 3. SELEKCIJE
+# if, elif, else 
+"""if <logički_uvjet>; # zaglavlje
+    <blok_naredbi> # tijelo
+"""
+
+a = 5
+
+if a % 2 == 0:
+    print("Broj je paran")
+else:
+    print("Broj je neparan")
+    
+# Ukoliko imamo više od dva uvjeta, korisitimo elif naredbu 
+"""
+if <logički_uvjet_1>:
+    <blok_naredbi_1>
+elif <logički_uvjet_2>:
+    <blok_naredbi_2>
+elif <logički_uvjet_3>:
+    <blok_naredbi_3>
+else: 
+    <blok_naredbi_else>
+"""
+
+a = 5
+
+if a % 2 == 0:
+    print("Broj je paran")
+elif a % 2 == 1:
+    print("Broj je neparan")
+else:
+    print("Broj nije ni paran ni neparan")
+    
+# input() funkcija
+a = int(input("Unesite broj: "))
+
+if a % 2 == 0:
+    print("Broj je paran")
+elif a % 2 == 1:
+    print("Broj je neparan")
+else:
+    print("Broj nije ni paran ni neparan")
+    
+tajni_broj = 42
+broj = int(input("Pogodi broj! "))
+
+if tajni_broj == broj:
+    print("Bravo, pogodio si!")
+else:
+    if broj > tajni_broj:
+        print("Manji je od tog broja!")
+    else:
+        print("Veći je od tog broja!")
+print("Pokreni program ponovno za sljedeći pokušaj!")
