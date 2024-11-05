@@ -324,3 +324,123 @@ for redak in range(1, 11):
 # PRIMJER: kako ćemo ispisati brojeve od 1 do 10 s prefiksom "Broj":
 for i in range(1, 11):
     print(f"Broj: {i}")
+    
+# 6. UGRAĐENE STRUKTURE PODATAKA
+
+# 6.1. N-TORKE (ENG. TUPLE)
+tuple = (1, 2, 3, 4, 5)
+print(tuple) # (1, 2, 3, 4, 5)
+
+# N-torke mogu sadržavati elemente različitih tipova
+tuple = (1, "cvrčak", 3.14, True)
+print(tuple) # (1, 'cvrčak', 3.14, True)
+
+# Indeksi u Pythonu počinju od 0, stoga prvi element n-torke ima indeks 0, a drugi indeks 1 i tako dalje
+
+sastojci = ("jaja", "mlijeko", "brašno", "šećer", "sol")
+
+print(sastojci[0]) #jaja
+print(sastojci[1]) # mlijeko
+print(sastojci[-1]) # sol
+
+# N-torke se mogu indeksirati i rezati na isti način kao i znakovni nizovi
+sastojci = ("jaja", "mlijeko", "brašno", "šećer", "sol")
+
+print(sastojci[1:3]) # ('mlijeko' , 'brašno') - dohvati elemente od indeksa 1 do 3 (ne uključujući indeks 3)
+print(sastojci[:3]) # ('jaja', 'mlijeko', 'brašno') - dohvati elemente od početka do indeksa 3 (ne uključujući indeks 3)
+print(sastojci[3:]) # ('šećer', 'sol') - dohvati elemente od indeksa 3 do kraja
+
+# Kako se radi o slijednoj kolekciji, n-torke se mogu iterirati pomoću petlje for
+sastojci = ("jaja", "mlijeko", "brašno", "šećer", "sol")
+
+for sastojak in sastojci:
+    print(sastojak)
+
+# Veličinu n-torke možemo dobiti pomoću funkcije len()
+sastojci = ("jaja", "mlijeko", "brašno", "šećer", "sol")
+
+print(len(sastojci)) # 5
+
+# 6.2. LISTA
+lista = [1, 2, 3, 4, 5]
+
+raznovrsna_lista = [1, "cvrčak", 3.14, True]
+print(raznovrsna_lista) # [1, 'cvrčak', 3.14, True]
+
+# Indeksiranje radimo na isti način kao i kod n-torki
+sastojci = ["jaja", "mlijeko", "brašno", "šećer", "sol"]
+
+print(sastojci[0]) # jaja
+print(sastojci[1]) # mlijeko
+print(sastojci[-2]) # šećer
+
+# Možemo mijenjati sastojke
+sastojci = ["jaja", "mlijeko", "brašno", "šećer", "sol"]
+sastojci[0] = "kvasac"
+print(sastojci) # ['kvasac', 'mlijeko', 'brašno', 'šećer', 'sol']
+
+sastojci[-1] = "papar"
+print(sastojci) # ['kvasac', 'mlijeko', 'brašno', 'šećer', 'papar']
+
+# Liste mogu sadržavati i druge liste
+matrica = [[1,2,3], [4,5,6], [7,8,9]]
+
+print(matrica[0]) # [1, 2, 3]
+print(matrica[1][1]) # 5
+
+# Ali i n-torke
+sastojci = [("jaja", 2) , ("mlijeko", 1), ("brašno", 3), ("šećer", 1), ("sol", 1)]
+
+print(sastojci[0]) # ('jaja', 2)
+print(sastojci[0][1]) # 2
+
+# Operacije nad listama naječešće uključuju dodavanje i uklanjanje elemenata
+# Dodavanje elemenata na kraj liste vršimo pomoću metode append():
+
+sastojci = ["jaja", "mlijeko", "brašno", "šećer", "sol"]
+
+sastojci.append("kvasac")
+print(sastojci) # ['jaja', 'mlijeko', 'brašno', 'šećer', 'sol', 'kvasac']
+
+# ili na određenu poziciju koristeći metodu insert()
+sastojci.insert(2, "papar")
+print(sastojci) # ['jaja', 'mlijeko', 'papar', 'brašno', 'šećer', 'sol', 'kvasac']
+
+# Uklanjanje elemenata iz liste vršimo pomoću metode remove () - uklanja prvi element s određenom vrijednošću:
+sastojci = ["jaja", "mlijeko", "brašno", "šećer", "sol"]
+
+sastojci.remove("mlijeko")
+print(sastojci) # ['jaja', 'brašno', 'šećer', 'sol']
+
+# Ili metode pop() - uklanja element s određenim indeksom ili posljednji element ako indeks nije naveden
+sastojci = ["jaja", "mlijeko", "brašno", "šećer", "sol"]
+
+sastojci.pop() # uklanja posljednji element iz liste, jednako kao i sastojci.pop(-1)
+
+print(sastojci) # ['jaja', 'mlijeko', 'brašno', 'šećer']
+sastojci.pop(1)
+
+print(sastojci) # ['jaja', 'brašno', 'šećer']
+
+# Liste možemo jednistavno iterirati
+sastojci = ["jaja", "mlijeko", "brašno", "šećer", "sol"]
+
+for sastojak in sastojci:
+    print(sastojak)
+
+# ili koristeći enumerate() funkcije za ispisivanje indeksa
+for indeks, sastojak in enumerate(sastojci):
+    print(f"{indeks}: {sastojak}")
+    
+# Listama možemo promijeniti redoslijed elemenata koristeći metodu reverse() pa i sortirati ih koristeći metodu sort()
+sastojci = ["jaja", "mlijeko", "brašno", "šećer", "sol"]
+
+sastojci.reverse()
+print(sastojci) # ['sol', 'šećer', 'brašno', 'mlijeko', 'jaja']
+
+sastojci.sort()
+print(sastojci) # ['brašno', 'jaja', 'mlijeko', 'sol', 'šećer']
+
+
+
+
