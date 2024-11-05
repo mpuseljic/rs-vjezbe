@@ -562,8 +562,93 @@ voce.add("🍅")
 print(voce.intersection(povrce)) # {'🍅'}
 
 print(voce.difference(povrce)) # {'🍎', '🍐', '🍌', '🍊'} - voće koje nije povrće
-print(povrce.difference(voce))
+print(povrce.difference(voce)) # {'🧅', '🥬', '🥒'} -povrće koje nije voće
 
+# 9. FUNKCIJE
+def pozdrav():
+    print("Hello World!")
 
+pozdrav()
 
+def zbroj(a,b):
+    return a + b
 
+print(zbroj(3, 5))
+
+# Primjer funkcije koja ima podrazumijevane vrijednosti za argumente
+def zbroj(a=0, b=0):
+    return a+b
+
+print(zbroj())
+print(zbroj(3))
+print(zbroj(3, 5))
+
+# Primjer funkcije koja vraća više vrijednosti
+def zbroj_razlika(a, b):
+    zbroj = a + b
+    razlika = a - b
+    return zbroj, razlika
+
+z, r = zbroj_razlika(5, 3)
+
+# Primjer rekurzivne funkcije koja računa faktorijel broja 
+def faktorijel(n):
+    if n == 0:
+        return 1
+    else:
+        return n*faktorijel(n-1)
+
+print(faktorijel(5))
+
+# Funkcija koja će nam izračunati točno vrijeme u lokalnoj vremenskoj zoni
+import time
+
+def točnoVrijeme():
+    vrijeme = time.localtime()
+    sati = vrijeme.tm_hour
+    minute = vrijeme.tm_min
+    sekunde = vrijeme.tm_sec
+    return f"{sati}:{minute}:{sekunde}"
+
+print(točnoVrijeme())
+
+# Funkcije mogu primati sve tipove podataka kao argumente, uključujući i kolekcije. Idemo napisati funkciju
+#koja će kao prvi argument primiti listu brojeva, a kao drugi argument broj koji će predstavljati faktor s kojim
+#ćemo potencirati svaki broj iz liste.
+def potenciranje_faktorom(lista, faktor):
+    nova_lista = []
+    for broj in lista:
+        nova_lista.append(broj ** faktor)
+    return nova_lista
+
+print(potenciranje_faktorom([1, 2, 3, 4, 5], 2)) # [1, 4, 9, 16, 25]
+
+# Funkcije mogu primati i druge funkcije kao argumente. Ovo je korisno kada želimo da funkcija izvrši neku
+# operaciju nad drugom funkcijom. Primjer funkcije koja prima funkciju kao argument:
+def pomnozi_s_dva(x):
+    return x * 2
+
+def primjeni_na_listu(funkcija, lista):
+    nova_lista = []
+    for element in lista:
+        nova_lista.append(funkcija(element))
+    return nova_lista
+
+print(primjeni_na_listu(pomnozi_s_dva, [1, 2, 3, 4, 5])) # [2, 4, 6, 8, 10]
+
+# Idemo napisati i jednu matematičku funkciju koja će računati vrijednosti trigonometrijskih funkcija za zadani
+# kut izrađen u radijanima. Za to ćemo koristiti modul math.
+
+import math
+
+def trigonometrija(kut):
+    radijani = math.radians(kut)
+    sinus = math.sin(radijani)
+    kosinus = math.cos(radijani)
+    tangens = math.tan(radijani)
+    
+    return sinus, kosinus, tangens
+
+kut = 45
+sinus, kosinus, tangens = trigonometrija(kut)
+print(f"Sinus: {sinus}, Kosinus: {kosinus}, Tangens: {tangens}")
