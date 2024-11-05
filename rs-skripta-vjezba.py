@@ -441,6 +441,83 @@ print(sastojci) # ['sol', 'šećer', 'brašno', 'mlijeko', 'jaja']
 sastojci.sort()
 print(sastojci) # ['brašno', 'jaja', 'mlijeko', 'sol', 'šećer']
 
+# 7. RJEČNIK
+rjecnik = {"ime": "Ivan", "prezime": "Ivić", "dob": 25}
+print(rjecnik) # {'ime': 'Ivan', 'prezime': 'Ivić', 'dob': 25}
+
+# Pojedinim elementima rječnika pristupamo pomoću ključa
+rjecnik = {"ime": "Ivan", "prezime": "Ivić", "dob": 25}
+
+print(rjecnik["ime"]) # Ivan
+print(rjecnik["dob"]) # 25
+
+# Ključevi rječnika moraju biti jedinstveni, ali vrijednosti ne moraju biti:
+rjecnik = {"ime": "Ivan", "prezime": "Ivić", "dob": 25, "ime":"Marko"}
+
+print(rjecnik) # {'ime': 'Marko', 'prezime': 'Ivić', 'dob': 25}
+
+# U pravilu ne želimo mijenjati ključeve rječnika, ali možemo dodavati nove ključeve i mijenjati vrijednosti postojećih ključeva
+rjecnik = {"ime": "Ivan", "prezime": "Ivić", "dob": 25}
+
+rjecnik["adresa"] = "Zagreb"
+
+print(rjecnik) # {'ime': 'Ivan', 'prezime': 'Ivić', 'dob': 25, 'adresa': 'Zagreb'}
+
+rjecnik["dob"] = 26
+print(rjecnik) # {'ime': 'Ivan', 'prezime': 'Ivić', 'dob': 26, 'adresa': 'Zagreb'}
+
+# Rjecnike možemo iterirati pomoću petlje for
+rjecnik = {"ime": "Ivan", "prezime": "Ivić", "dob": 25}
+
+for kljuc in rjecnik:
+    print(kljuc, rjecnik[kljuc]) # ime Ivan prezime Ivić dob 25
+    
+# Ključeve i vrijednosti rječnika možemo dohvatiti pomoću metoda keys() i values(), dok metodom items() možemo dohvatiti parove ključ-vrijednost:
+rjecnik = {"ime": "Ivan", "prezime": "Ivić", "dob": 25}
+
+print(rjecnik.keys()) # dict_keys(['ime', 'prezime', 'dob'])
+print(rjecnik.values()) # dict_values(['Ivan', 'Ivić', 25])
+
+# dohvaćanje ključeva i vrijednosti pomoću metode items()
+for kljuc, vrijednost in rjecnik.items():
+    print(kljuc, vrijednost) # ime Ivan prezime Ivić dob 25
+    
+# U pravilu, rječnike možemo, osim navođenjem izraza u vitičastim zagradama, stvarati i u pozivom konstruktora dict() nad pobrojivim argumentom koji sadrži parove ključ-vrijednost
+tablica = dict([("rajčica", "povrće"), ("jabuka", "voće")])
+print(tablica) # {'rajčica': 'povrće', 'jabuka': 'voće'}
+
+# Literale malih rječnika je praktično stvarati navođenjem imenovanih argumenata konstruktoru dict()
+cjenik = dict(ćevapi = 10, pivo = 15, kava = 7)
+print(cjenik) # {'ćevapi': 10, 'pivo': 15, 'kava': 7}
+
+# Uobičajeno je da rječnici sadrže i druge rječnike, ali i liste kao vrijednosti
+namirnice = {"čokolada": ["smeđe", "ukusno", "zdravo"], "kelj":["zeleno", "gorko", "zdravo"],
+             "luk": ["bijelo", "smrdljivo", "zdravo"], "špek": ["crveno", "slano", "nezdravo"]}
+
+print(namirnice["čokolada"]) # ['smeđe', 'ukusno', 'zdravo']
+
+print(type(namirnice)) # <class 'dict'>
+#ali
+print(type(namirnice["čokolada"])) # <class 'list'>
+
+# Rekli smo da sve ključeve rječnika možemo dohvatiti pmooću metode keys()
+namirnice = {"čokolada": ["smeđe", "ukusno", "zdravo"], "kelj":["zeleno", "gorko", "zdravo"],
+             "luk": ["bijelo", "smrdljivo", "zdravo"], "špek": ["crveno", "slano", "nezdravo"]}
+
+print(namirnice.keys()) # dict_keys(['čokolada', 'kelj', 'luk', 'špek'])
+
+for kljuc in namirnice.keys():
+    print(kljuc) # čokolada kelj luk špek
+    
+# Međutim, kako možemo dohvatiti samo zdrave namirnice ako nam je poznato da sadrže vrijednost "zdravo" unutar liste vrijednosti?
+for kljuc, vrijednost in namirnice.items():
+    if "zdravo" in vrijednost:
+        print(kljuc) # čokolada kelj luk
+        
+
+
+
+
 
 
 
