@@ -514,9 +514,55 @@ for kljuc, vrijednost in namirnice.items():
     if "zdravo" in vrijednost:
         print(kljuc) # čokolada kelj luk
         
+# 8. SKUP
+skup = {1, 2, 3, 4, 5}
 
+print(skup) # {1, 2, 3, 4, 5}
 
+skup_2 = {"banana", "jabuka", "kruška"}
+print(skup_2) # {'banana', 'kruška', 'jabuka'}
 
+# Jednom kad smo skupove definirali, nije moguće mijenjati elemente, ali je moguće dodavati i uklanjati elemente
+skup = {1, 2, 3, 4, 5}
+skup.add(6) 
+print(skup) # {1, 2, 3, 4, 5, 6}
+
+skup.remove(3)
+print(skup) # {1, 2, 4, 5, 6}
+skup.add(1) # duplikar se neće dodati, skup ostaje nepromijenjen
+
+# sve elemente željenog skupa možemo obići standardnom iteracijom na sljedeći način:
+skup = {1, 2, 3, 4, 5}
+
+for element in skup:
+    print(element)
+    
+# jednako tako možemo i koristiti operator 'in' za ispitivanje vrijednosti
+print(1 in skup)
+print( 6 in skup)
+
+# Metodama add() i remove() možemo dodavati i uklanjati elemente iz skupa. Metoda discard() također uklanja element iz skupa, ali neće baciti iznimku ako element ne postoji u skupu
+skup = {1, 2, 3, 4, 5}
+skup.discard(3)
+print(skup) # {1, 2, 4, 5}
+
+skup.discard(6) # neće baciti iznimku
+print(skup) # {1, 2, 4, 5}
+
+# Meotda union() vraća uniju dva skupa, metoda intersection() vraća presjek dva skupa, dok metoda difference() vraća razliku dva skupa:
+voce = {"🍎", "🍌", "🍐", "🍊"}
+povrce = {"🍅", "🥒", "🧅", "🥬"}
+
+print(voce.union(povrce)) # {'🍊', '🍐', '🍎', '🧅', '🍌', '🍅', '🥬', '🥒'}
+
+print(voce.intersection(povrce)) # set() prazan skup, jer voće i povrće nemaju zajedničkih elemenata
+
+voce.add("🍅")
+
+print(voce.intersection(povrce)) # {'🍅'}
+
+print(voce.difference(povrce)) # {'🍎', '🍐', '🍌', '🍊'} - voće koje nije povrće
+print(povrce.difference(voce))
 
 
 
