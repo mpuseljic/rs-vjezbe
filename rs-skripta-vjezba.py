@@ -652,3 +652,263 @@ def trigonometrija(kut):
 kut = 45
 sinus, kosinus, tangens = trigonometrija(kut)
 print(f"Sinus: {sinus}, Kosinus: {kosinus}, Tangens: {tangens}")
+
+###### RS-02 - LAMBDA FUNKCIJE 
+# Lambda funkcije su anonimne funkcije koje se u pravilu koriste za jednokratne, male operacije. 
+# Funkcije su anonimne jer se ne dodjeljuju imen kao što je to slučaj kod običnih funkcija.
+# Lambda funkcije mogu primiti proizvoljan broj argumenata, ali mogu sadržavati samo jedan izraz
+
+"""
+SINSTAKSA LAMBDA FUNKCIJE JE SLJEDEĆA:
+
+lambda arguments : expression 
+"""
+
+# NPR. KLASIČNA FUNKCIJA ZA KVADRIRANJE BROJA MOŽEMO NAPISATI OVAKO
+def kvadriraj(x):
+    return x ** 2
+
+print(kvadriraj(5)) # 25
+
+# KOD LAMBDA FUNKCIJE POTREBNO JE IZBACITI KLJUČNU RIJEČ DEF I IME FUNKCIJE, A UMJESTO TOGA KORISTIMO KLJUČNU RIJEČ LAMBDA
+lambda x: x ** 2
+
+print((lambda x: x ** 2)(5)) # 25
+
+kvadriraj = lambda x: x ** 2
+
+print(kvadriraj(5))
+
+# LAMBDA FUNKCIJE MOGU PRIMITI VIŠE ARGUMENATA:
+zbroji = lambda x, y: x + y
+
+print(zbroj(5, 3))
+
+zbroji_kvadrate = lambda x, y: x ** 2 + y ** 2
+print(zbroji_kvadrate(3, 4))
+
+"""
+Ali i ne moraju primiti niti jedan argument:
+Sljedeći primjer nema puno smisla jer je moguće samo pohraniti vrijednost "Pozdrav!" u varijablu i
+ispisati je, ali je koristan za demonstraciju:
+"""
+
+pozdrav = lambda: "Pozdrav!"
+
+print(pozdrav())
+
+# U lambda funkcijama, kao i običnim, možemo postaviti zadane vrijednosti za argumente:
+pozdrav = lambda ime = "Ivan": f"Pozdrav, {ime}!" # koristimo f-string za formatiranje stringa
+
+print(pozdrav())
+print(pozdrav("Marko"))
+
+# pa i više njih
+circle_area = lambda r=1, pi=3.14: pi * r ** 2
+
+print(circle_area())
+print(circle_area(2))
+
+# Ako lambda funkcija ima više argumenata, argumente s zadanim vrijednostima postavljamo na kraj.
+multiplier = lambda x, factor = 2: x * factor
+
+print(multiplier(5))
+print(multiplier(5, 3))
+
+"""
+Naravno, kao i obične funkcije, lambda funkcije je moguće koristiti sa svim tipovima podataka, uključujući i
+strukture podataka:
+"""
+tekst = "Ovo je neki tekst"
+
+print((lambda x: x.upper())(tekst))
+
+######### Lambda funkcije kao argumenti drugim funkcijama ####
+"""
+Primjerice: Želimo napisati funkciju koja će primati listu brojeva i funkciju koja će se primijeniti na svaki
+element liste. To možemo napraviti ovako:
+"""
+
+def primijeni_na_sve(lista, funkcija):
+    rezultat = []
+    for element in lista:
+        rezultat.append(funkcija(element)) # u novu listu dodajemo rezultate funkcije primijenjene na svaki element
+        
+    return rezultat
+
+"""
+Što je ovdje funkcija ? Što god želimo i definiramo kao funkciju. Primjer, želimo kvadrirati svaki element
+liste, za to možemo definirait malo anonimnu lambda funkciju:
+"""
+
+lambda x: x ** 2 # za svaki element x vraća x na kvadrat
+
+# i proslijedimo je kao argument funkciji primijeni_na_sve
+print(primijeni_na_sve([1, 2, 3, 4], lambda x: x ** 2))
+
+# ili želimo primijeniti funkciju koja potencira vrijednost na 3.potenciju
+print(primijeni_na_sve([1, 2, 3, 4], lambda x: x ** 3))
+
+# funkciju je moguće pohraniti i u varijablu te potom proslijediti
+uvecaj_za_5 = lambda broj: broj + 5
+
+print(primijeni_na_sve([1, 2, 3, 4], uvecaj_za_5))
+
+# AKO ŽELIMO MOŽEMO DEFINIRATI I UVJETE UNUTAR LAMBDA FUNKCIJE
+# lambda arguments: expression if condition else expression
+
+# Primjer: Želimo kvadrirati broj samo ako je paran
+kvadriraj_parne = lambda x: x ** 2 if x % 2 == 0 else x
+
+# ili želimo vratiti duljinu znakovnog niza ako je duljina veća od 5, inače vraćamo sam znakovni niz:
+dulji_od_5 = lambda niz: len(niz) if len(niz) > 5 else niz
+
+# ili želimo vratiti "paran" ako je broj paran, inače "neparan":
+paran_neparan = lambda x: "paran" if x % 2 == 0 else "neparan"
+
+
+#### FUNKCIJE VIŠEG REDA ####
+"""
+Funkcije višeg reda (eng. Higher-order functions) su funkcije koje primaju druge funkcije kao argumente
+ILI vraćaju druge funkcije kao rezultat.
+
+Funkcije višeg reda su korisne jer omogućuju pisanje modularnog koda, tj. koda koji je podijeljen u manje,
+samostalne dijelove koji obavljaju specifične zadatke.
+Ono što ćemo vjerojatno najčešće raditi, je koristiti lambda funkcije kao argumente ugrađenim
+funkcijama višeg reda, kao što su map , filter , reduce , sort itd.
+
+"""
+
+### FUNKCIJA MAP
+"""
+Funkcija map prima funkciju i iterabilni objekt (npr. listu) i primjenjuje tu funkciju na svaki element tog
+objekta. Povratna vrijednost je map objekt koji se može pretvoriti u listu, tuple ili neki drugi iterabilni
+objekt.
+"""
+
+# SINTAKSA: map(function, iterables)
+
+# Primjerice: Želimo kvadrirati svaki element liste:
+
+lista = [1, 2, 3, 4]
+
+kvadriraj = lambda x: x ** 2
+kvadrirana_lista = list(map(kvadriraj, lista)) # map vraća map objekt, zato koristimo list () za pretvaranje u listu
+
+# ili kraće
+kvadrirana_lista = list(map(lambda x: x ** 2, lista))
+
+"""
+Primjer: Imamo listu studenata s imenom, prezimenom i JMBAG-om. Želimo izvući samo JMBAG-ove:
+Kako bismo ovo učinili "ručno"? Bez lambda funkcija i funkcija višeg reda (map)?
+"""
+
+studenti = [
+    {"ime": "Ivan", "prezime": "Ivić", "jmbag": "0303077889"},
+    {"ime": "Marko", "prezime": "Marković", "jmbag": "0303099878"},
+    {"ime": "Ana", "prezime": "Anić", "jmbag": "0303088777"}
+]
+
+jmbagovi = []
+
+for student in studenti:
+    jmbagovi.append(student["jmbag"])
+    
+print(jmbagovi)
+
+# Kako bismo to učinili koristeći map i lambda funkciju?
+jmbagovi = list(map(lambda student: student["jmbag"], studenti))
+
+print(jmbagovi)
+
+#### FUNKCIJA FILTER ####
+"""
+Funkcija filter prima funkciju koja vraća True ili False i iterabilni objekt. Vraća filter objekt koji se
+može pretvoriti u listu, tuple ili neki drugi iterabilni objekt.
+Ova funkcija će filtrirati elemente iterabilnog objekta prema rezultatu funkcije (predikata) koja vraća True
+ili False .
+"""
+
+# SINTAKSA: filter(function, iterables)
+
+# Primjerice: Želimo filtrirati samo parne brojeve iz liste:
+lista = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+parni = []
+
+for broj in lista:
+    if broj % 2 == 0:
+        parni.append(broj)
+
+print(parni)
+
+# ili koristeći filter i lambda funkciju
+parni = list(filter(lambda x: x % 2 == 0, lista))
+
+# Naravno možemo kombinirati i različite strukture podataka:
+studenti = [
+{"ime": "Ivan", "prezime": "Ivić", "jmbag": "0303077889", "godina_rodenja" : 2000},
+{"ime": "Marko", "prezime": "Marković", "jmbag": "0303099878", "godina_rodenja" : 1999},
+{"ime": "Ana", "prezime": "Anić", "jmbag": "0303088777", "godina_rodenja" : 2003},
+{"ime": "Petra", "prezime": "Petrić", "jmbag": "0303088777", "godina_rodenja" : 2001}
+]
+
+rodeni_prije_2000 = list(filter(lambda student: student["godina_rodenja"] < 2000, studenti))
+
+# ručno
+rodeni_prije_2000 = []
+for student in studenti:
+    if student["godina_rodenja"] < 2000:
+        rodeni_prije_2000.append(student)
+        
+print(rodeni_prije_2000)
+
+#### FUNKCIJE ANY I ALL
+"""
+Funkcije any i all su također funkcije višeg reda koje primaju iterabilni objekt i vraćaju True ili False.
+any vraća True ako je bilo koji (barem jedan) element iterabilnog objekta istinit, inače vraća False.
+all vraća True ako su svi elementi iterabilnog objekta istiniti, inače vraća False.
+"""
+
+# Primjer korištenja funkcije any
+print(any([False, False, True])) # True (jer je barem jedan element True)
+print(any([False, False, False])) # False (jer niti jedan element nije True)
+
+# Primjer korištenja funkcije all
+print(all([True, True, True])) # True (jer su svi elementi True)
+print(all([True, False, True])) # False (jer nisu svi elementi True)
+
+"""
+Kako koristiti ove funkcije s lambda funkcijama?
+Recimo da želimo provjeriti jesu li svi brojevi u listi parni. Idemo prvo ručno:
+"""
+def svi_parni(lista):
+    for broj in lista:
+        if broj % 2 != 0:
+            return False
+    return True
+print(svi_parni([2, 4, 6, 8])) # True
+print(svi_parni([2, 4, 6, 7])) # False
+
+# ili koristeći all, map i lambda funkciju:
+
+print(all(map(lambda x: x % 2 == 0, [2, 4, 6, 8]))) # True
+print(all(map(lambda x: x % 2 == 0, [2, 4, 6, 7]))) # False
+
+# Pogledajmo još jedan primjer, gdje želimo provjeriti jesu li svi putnici uplatili aranžman:
+putnici = [
+{"ime": "Ivan", "prezime": "Ivić" , "uplata": True},
+{"ime": "Marko", "prezime": "Marković", "uplata": True},
+{"ime": "Ana", "prezime": "Anić", "uplata": False}
+]
+
+print(all(map(lambda putnik: putnik["uplata"], putnici)))
+
+# ili ručno
+def svi_uplatili(putnici):
+    for putnik in putnici:
+        if not putnik["uplata"]:
+            return False
+    return True
+
+print(svi_uplatili(putnici))
