@@ -1133,3 +1133,108 @@ print(paran_neparan) # {1: 'neparan', 2: 'paran', 3: 'neparan', 4: 'paran', 5: '
 paran_neparan = {i: "paran" if i % 2 == 0 else "neparan" for i in range(1, 11)}
 print(paran_neparan) # {1: 'neparan', 2: 'paran', 3: 'neparan', 4: 'paran', 5: 'neparan', 6: 'paran', 7: 'neparan', 8: 'paran', 9: 'neparan', 10: 'paran'}
 
+
+#### KLASE I OBJEKTI
+"""
+Klase (eng. Class) i objekti (eng. Object) su temeljna paradigma u objektno orijentiranom programiranju.
+Klase su šablonski opisi objekata, dok su objekti instance klasa. Izradom nove klase, automatski se
+stvara novi tip podataka.
+Slično kao i u JavaScriptu, u Pythonu je gotovo su gotovo svi programski konstrukti objekti koji sadrže
+atribute (eng. attribute) i metode (eng. method).
+Dakle klase možemo zamisliti kao šablone (eng. blueprint) za definiranje atributa i metoda objekata.
+Klasu definiramo ključnom riječju class, a objekt klase stvaramo pozivom klase kao funkcije. Ne
+koristimo new ključnu riječ kao u nekim drugim jezicima.
+"""
+# Atribute možemo definirati prilikom definicije, navodeći ih kao varijable unutar klase:
+class Osoba:
+    ime = "Ivan"
+    prezime = "Ivić"
+    godine = 25
+    
+osoba = Osoba()
+
+print(osoba.ime) # Ivan
+print(osoba.prezime) # Ivić
+print(osoba.godine) # 25
+
+#### KONSTRUKTOR KLASE
+"""
+Primjer iznad nije dobar način definiranja klase jer svi objekti klase Osoba dijele iste atribute.
+Konstruktor (eng. Constructor) je posebna metoda koja se koristi za inicijalizaciju objekta klase.
+Iz tog razloga možemo definirati konstruktor klase koji se definira metodom __init__. Ova metoda
+poziva se svaki put prilikom inicijalizacije objekta klase.
+"""
+
+# Primjer: Nadogradnja klase Osoba s konstruktorom:
+class Osoba:
+    def __init__(self, ime, prezime, godine):
+        self.ime = ime
+        self.prezime = prezime
+        self.godine = godine
+        
+osoba = Osoba("Ivan", "Ivić", 25)
+
+print(osoba.ime) # Ivan
+print(osoba.prezime) # Ivić
+print(osoba.godine) # 25
+
+osoba2 = Osoba("Marko", "Marković", 30)
+
+print(osoba2.ime) # Marko
+print(osoba2.prezime) # Marković
+print(osoba2.godine) # 30
+
+#### METODE KLASE
+"""
+Metode klase su funkcije koje se definiraju unutar klase i koriste se za izvršavanje određenih operacija nad
+objektima klase.
+Kada definiramo metode, možemo pristupati vrijednostima atributa objekta pomoću self reference.
+"""
+
+# Primjer metode pozdrav:
+class Osoba:
+    def __init__(self, ime, prezime, godine):
+        self.ime = ime
+        self.prezime = prezime
+        self.godine = godine
+        
+    def pozdrav(self):
+        return f"Pozdrav, ja sam {self.ime} {self.prezime} i imam {self.godine} godina."
+
+# Poziv metode:
+osoba = Osoba("Snješka", "Snježanić", 25)
+
+print(osoba.pozdrav()) # Pozdrav, ja sam Snješka Snježanić i imam 25 godina.
+
+#### NASLJEĐIVANJE
+"""
+Nasljeđivanje (eng. Inheritance) je ključna paradigma u objektno orijentiranom programiranju. Omogućuje
+nam definiranje novih klasa koje nasljeđuju atribute i metode od postojećih klasa.
+Klasa koja nasljeđuje zove se podklasa (eng. subclass), a klasa koja se nasljeđuje zove se nadklasa (eng.
+superclass).
+Prilikom definiranja podklase, navodimo nadklasu u zagradama, a koristeći super() funkciju možemo
+nasljediti sve atribute i metode nadklase.
+"""
+
+# Primjer nasljeđivanja
+class Korisnik:
+    def __init__(self, ime, prezime):
+        self.ime = ime
+        self.prezime = prezime
+        self.username = f"{ime.lower()}_{prezime.lower()}"
+        
+    def pozdrav(self):
+        return f"Pozdrav, ja sam {self.ime} {self.prezime}, moj username je {self.username}."
+
+class Admin(Korisnik):
+    def __init__(self, ime, prezime, privilegije):
+        super().__init__(ime, prezime) # nasljeđujemo atribute od nadklase
+        self.privilegije = privilegije
+        
+    def pozdrav(self):
+        return f"Pozdrav, ja sam {self.ime} {self.prezime}, moj username je {self.username} i imam ukupno {len(self.privilegije)} privilegije: {','.join(self.privilegije)}."
+
+# Instaciramo objekt klase Admin:
+root = ["dodavanje_korisnika", "brisanje_korisnika", "dodavanje_postova", "brisanje_postova"]
+admin = Admin("Ivan", "Ivić", root)
+print(admin.pozdrav()) #Pozdrav, ja sam Ivan Ivić, moj username je ivan_ivić i imam ukupno 4 privilegije: dodavanje_korisnika, brisanje_korisnika, dodavanje_postova, brisanje_postova.
