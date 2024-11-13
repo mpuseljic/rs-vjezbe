@@ -912,3 +912,224 @@ def svi_uplatili(putnici):
     return True
 
 print(svi_uplatili(putnici))
+
+### IZGRADNJA STRUKTURA KROZ COMPREHENSION SINTAKSU
+
+"""
+Postoje 4 vrste comprehension sintakse:
+1. List comprehension (izgradnja liste)
+2. Dictionary comprehension (izgradnja rječnika)
+3. Set comprehension (izgradnja skupa)
+4. Generator comprehension (izgradnja generatora)
+"""
+
+### LIST COMPREHENSION
+# KLASIČAN NAČIN
+kvadrati = []
+for i in range(1, 11):
+    kvadrati.append(i ** 2)
+    
+print(kvadrati) # [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+
+# Rekli smo da ovo možemo skratiti i korištenjem map funkcije višeg reda:
+kvadrati = list(map(lambda x: x ** 2, range(1, 11)))
+
+print(kvadrati) # [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+
+# Ali i korištenjem list comprehension sintakse:
+kvadrati = [x ** 2 for x in range(1, 11)]
+
+print(kvadrati) # [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+
+"""
+Osnovna sintaksa list comprehensiona je sljedeća:
+[expression for element in iterable]
+
+Gdje je:
+expression izraz koji se izvršava za svaki element
+element varijabla koja predstavlja trenutni element
+iterable iterabilni objekt (npr. lista, skup, rječnik, generator), u ovom slučaju je lista brojeva od 1 do 10
+"""
+
+# Recimo da imamo listu znakovnih nizova gdje želimo izgraditi listu duljina tih nizova:
+# Klasičan način:
+nizovi = ["jabuka", "kruška", "banana", "naranča"]
+duljine = []
+
+for niz in nizovi:
+    duljine.append(len(niz))
+    
+print(duljine) # [6, 6, 6, 7]
+
+# List comprehension:
+duljine = [len(niz) for niz in nizovi]
+
+print(duljine)
+
+# Kako izgraditi listu kvadrata brojeva od 1 do 10, ali samo za neparne brojeve:
+# Klasičan način:
+kvadrati_neparnih = []
+for i in range(1, 11):
+    if i % 2 != 0:
+        kvadrati_neparnih.append(i ** 2)
+        
+print(kvadrati_neparnih) # [1, 9, 25, 49, 81]
+
+# List comprehension:
+kvadrati_neparnih = [x ** 2 for x in range(1, 11) if x % 2 != 0]
+
+"""
+Sintaksa s if uvjetom:
+[expression for element in iterable if condition]
+"""
+
+"""
+Kako ovo koristiti sa strukturama? Imamo listu rječnika gdje želimo izgraditi listu imena studenata koji su
+rođeni prije 1999. godine:
+"""
+studenti = [
+{"ime": "Ivan", "prezime": "Ivić", "godina_rodenja": 2000},
+{"ime": "Marko", "prezime": "Marković", "godina_rodenja": 1990},
+{"ime": "Ana", "prezime": "Anić", "godina_rodenja": 2003},
+{"ime": "Petra", "prezime": "Petrić", "godina_rodenja": 2001}
+]
+
+# KLASIČAN NAČIN
+rodeni_prije_1999 = []
+
+for student in studenti:
+    if student["godina_rodenja"] < 1999:
+        rodeni_prije_1999.append(student["ime"])
+        
+print(rodeni_prije_1999) # ['Marko']
+
+# LIST COMPREHENSION:
+
+rodeni_prije_1999 = [student["ime"] for student in studenti if student["godina_rodenja"] < 1999]
+
+# MOGUĆE JE DODATI I ELSE IZRAZ
+"""
+Primjer: Želimo izgraditi listu kvadrata brojeva od 1 do 10, ali za neparne brojeve kvadrat, a za parne
+brojeve sam broj:
+"""
+# KLASIČAN NAČIN
+kvadrati_neparnih_a_parne_brojevi= []
+
+for i in range(1, 11):
+    if i % 2 != 0:
+        kvadrati_neparnih_a_parne_brojevi.append(i ** 2)
+    else:
+        kvadrati_neparnih_a_parne_brojevi.append(i)
+        
+print(kvadrati_neparnih_a_parne_brojevi) # [1, 2, 9, 4, 25, 6, 49, 8, 81, 10]
+
+# List comprehension:
+kvadrati_neparnih_a_parne_brojevi = [x ** 2 if x % 2 != 0 else x for x in range(1, 11)] #
+[1, 2, 9, 4, 25, 6, 49, 8, 81, 10]
+
+# Želimo izgraditi listu voća, ali samo prva tri slova svakog voća:
+# KLASIČAN NAČIN
+fruits = ["apple", "banana", "cherry", "kiwi", "mango"]
+
+prva_tri_slova = []
+
+for fruit in fruits:
+    prva_tri_slova.append(fruit[:3])
+    
+print(prva_tri_slova) # ['app', 'ban', 'che', 'kiw', 'man']
+
+# List comprehension:
+prva_tri_slova = [fruit[:3] for fruit in fruits]
+
+# Ili želimo izgraditi novu listu voća, npr. koja sadrži samo ono voće koje sadrži slovo a:
+#Klasičan način:
+sa_slovom_a = []
+
+for fruit in fruits:
+    if "a" in fruit:
+        sa_slovom_a.append(fruit)
+        
+print(sa_slovom_a) # ['apple', 'banana', 'mango']
+
+# List comprehension:
+sa_slovom_a = [fruit for fruit in fruits if "a" in fruit]
+
+
+
+##### Dictionary comprehension ####
+"""
+Dictionary comprehension je vrlo sličan list comprehensionu, ali umjesto liste, gradimo rječnik kroz
+comprehension sintaksu.
+Sintaksa dictionary comprehensiona je sljedeća:
+{key_expression: value_expression for item in iterable if condition}
+
+Gdje je:
+key_expression izraz koji se izvršava za ključeve
+value_expression izraz koji se izvršava za vrijednosti
+item varijabla koja predstavlja trenutni element
+iterable iterabilni objekt (npr. lista, skup, rječnik, generator)
+condition uvjet koji se može dodati (nije obavezan)
+"""
+
+#Recimo da imamo listu voća fruits i želimo izgraditi rječnik gdje su ključevi voća, a vrijednosti duljina
+# tih voća:
+# Klasičan način:
+fruits = ["apple", "banana", "cherry", "kiwi", "mango"]
+duljine_voca = {}
+
+for fruit in fruits:
+    duljine_voca[fruit] = len(fruit)
+    
+print(duljine_voca) # {'apple': 5, 'banana': 6, 'cherry': 6, 'kiwi': 4, 'mango': 5}
+
+
+#Dictionary comprehension:
+duljine_voca = {fruit: len(fruit) for fruit in fruits}
+
+print(duljine_voca) # {'apple': 5, 'banana': 6, 'cherry': 6, 'kiwi': 4, 'mango': 5}
+
+# Ključevi neka budu brojevi od 1 do 5, a vrijednosti kvadrati tih brojeva:
+# Klasičan način:
+kvadrati_brojeva = {}
+
+for i in range(1, 6):
+    kvadrati_brojeva[i] = i ** 2
+    
+print(kvadrati_brojeva) # {1: 1, 2: 4, 3: 9, 4: 16, 5: 25}
+
+# Dictionary comprehension:
+kvadrati_brojeva = {i: i ** 2 for i in range(1, 6)}
+print(kvadrati_brojeva) # {1: 1, 2: 4, 3: 9, 4: 16, 5: 25}
+
+# Primjer: Želimo izgraditi rječnik gdje su ključevi brojevi, a vrijednosti kvadrati tih brojeva, ali samo za parne
+# brojeve od 1 do 10:
+#Klasičan način:
+kvadrati_parnih = {}
+
+for i in range(1, 11):
+    if i % 2 == 0:
+        kvadrati_parnih[i] = i ** 2
+        
+print(kvadrati_parnih) # {2: 4, 4: 16, 6: 36, 8: 64, 10: 100}
+
+#Dictionary comprehension:
+kvadrati_parnih = {i: i ** 2 for i in range(1, 11) if i % 2 == 0}
+print(kvadrati_parnih) # {2: 4, 4: 16, 6: 36, 8: 64, 10: 100}
+
+# Primjer: Izradit ćemo rječnik gdje ćemo za svaki broj kao ključ postaviti taj broj, a vrijednost će biti "paran"
+# ako je broj paran, inače "neparan":
+# Klasičan način:
+paran_neparan = {}
+
+for i in range(1, 11):
+    if i % 2 == 0:
+        paran_neparan[i] = "paran"
+    else:
+        paran_neparan[i] = "neparan"
+        
+print(paran_neparan) # {1: 'neparan', 2: 'paran', 3: 'neparan', 4: 'paran', 5: 'neparan', 6: 'paran', 7: 'neparan', 8: 'paran', 9: 'neparan', 10: 'paran'}
+
+# Dictionary comprehension:
+paran_neparan = {i: "paran" if i % 2 == 0 else "neparan" for i in range(1, 11)}
+print(paran_neparan) # {1: 'neparan', 2: 'paran', 3: 'neparan', 4: 'paran', 5: 'neparan', 6: 'paran', 7: 'neparan', 8: 'paran', 9: 'neparan', 10: 'paran'}
+
