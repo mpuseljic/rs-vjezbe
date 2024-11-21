@@ -1238,3 +1238,284 @@ class Admin(Korisnik):
 root = ["dodavanje_korisnika", "brisanje_korisnika", "dodavanje_postova", "brisanje_postova"]
 admin = Admin("Ivan", "Ivić", root)
 print(admin.pozdrav()) #Pozdrav, ja sam Ivan Ivić, moj username je ivan_ivić i imam ukupno 4 privilegije: dodavanje_korisnika, brisanje_korisnika, dodavanje_postova, brisanje_postova.
+
+
+
+###### RS3 - Asinkroni Python - Osnove asyncio biblioteke ###########
+### KORUTINE
+"""
+Ključne riječi async i await koriste se za:
+1. definiranje asinkronih ( async) funkcija (koje vraćaju coroutine objekte) te za
+2. čekanje na rezultat izvršavanja asinkronih funkcija ( await).
+Kako bismo simulirali asinkrono izvršavanje, iskoristit ćemo funkciju asyncio.sleep() koja simulira
+čekanje određenog vremena zadanog u sekundama.
+Sintaksa:
+asyncio.sleep(delay)
+delay - broj sekundi koliko želimo čekati - odgoditi izvršavanje koda
+"""
+
+import asyncio
+async def main():
+    print("Hello")
+    await asyncio.sleep(1)
+    print("World")
+    
+asyncio.run(main())
+
+### Konkurentno izvršavanje više korutina
+async def fetch_data():
+    print("Dohvaćam podatke...")
+    data = {"iznos": "3000", "stanje":"uspješno"}
+    await asyncio.sleep(2)
+    print("Podaci dohvaćeni.")
+    return data
+
+async def main():
+    data = await fetch_data()
+    print(f"Podaci: {data}")
+    
+asyncio.run(main())
+
+
+async def fetch_api_1():
+    print("Dohvaćam podatke s API-ja 1...")
+    await asyncio.sleep(2)
+    print("Podaci s API-ja 1 dohvaćeni.")
+    return {"api_1": "uspješno"}
+
+async def fetch_api_2():
+    print("Dohvaćam podatke s API-ja 2...")
+    await asyncio.sleep(4)
+    print("Podaci s API-ja 2 dohvaćeni.")
+    return {"api_2": "uspješno"}
+
+async def main():
+    podaci_1 = await fetch_api_1()
+    podaci_2 = await fetch_api_2()
+    
+    print(f"Podaci s API-ja 1: {podaci_1}")
+    print(f"Podaci s API-ja 2: {podaci_2}")
+    
+asyncio.run(main())
+
+
+async def main():
+    podaci_1, podaci_2 = await asyncio.gather(fetch_api_1(), fetch_api_2())
+    
+    print(f"Podaci s API-ja 1: {podaci_1}")
+    print(f"Podaci s API-ja 2: {podaci_2}")
+    
+    
+"""
+Primjer: Definirat ćemo korutinu timer() koja će simulirati otkucaje timera svake sekunde. Korutina prima
+2 argumenta: naziv timera i broj sekundi koliko će trajati, a zatim svake sekunde ispisuje preostale vrijeme.
+"""
+
+async def timer(name, delay):
+    for i in range(delay, 0, -1):
+        print(f"{name}: {i} sekundi preostalo...")
+        await asyncio.sleep(1)
+        print(f"{name}: Vrijeme je isteklo!")
+        
+async def main():
+    await asyncio.gather(
+        timer("Timer 1", 3),
+        timer("Timer 2", 5)
+    )
+    
+asyncio.run(main())
+
+
+
+#### ASYNCIO TASKS
+"""
+Radni zadatak, odnosno task u asyncio su temeljni gradivni blokovi asinkronog programiranja u Pythonu.
+Task predstavlja izvršnu jedinicu, odnosno asinkronu operaciju, koja se zakazuje (eng. schedules) za
+izvršavanje u event loop-u.
+asyncio.create_task() je funkcija koja stvara novi Task objekt koji izvršava asinkronu funkciju. Ova
+funkcija je korisna kada želimo definirati korutinu koju ćemo zakazati za konkurentno izvršavanje kasnije u
+programu.
+Sintaksa:
+asyncio.create_task(coroutine)
+coroutine - asinkrona funkcija koju želimo zakazati za konkurentno izvršavanje
+vraća Task objekt ( <class '_asyncio.Task'>)
+"""
+
+async def fetch_api_1():
+    print("Dohvaćam podatke s API-ja 1...")
+    await asyncio.sleep(2)
+    print("Podaci s API-ja 1 dohvaćeni.")
+    return {"api_1": "uspješno"}
+
+async def fetch_api_2():
+    print('Dohvaćam podatke s API-ja 2...')
+    await asyncio.sleep(4)
+    print('Podaci s API-ja 2 dohvaćeni.')
+    return {'api_2': 'uspješno'}
+
+
+async def main():
+    taks_1 = asyncio.create_task(fetch_api_1())
+    task_2 = asyncio.create_task(fetch_api_2())
+    
+    podaci_1 = await taks_1
+    podaci_2 = await task_2
+    
+    print(f"Podaci s API-ja: {podaci_1}")
+    print(f"Podaci s API-ja 2: {podaci_2}")
+    
+asyncio.run(main())
+
+#### Konkurentno izvođenje kroz asyncio.gather() i asyncio.create_task()
+
+"""
+Želimo definirati jednu korutinu korutina(n) koja će čekati jednu sekundu, a zatim vratiti poruku o
+završetku izvođenja.
+"""
+async def korutina(n):
+    await asyncio.sleep(1)
+    return f"Korutina {n} je završila."
+
+"""
+U main() funkciji ćemo pohraniti 5 korutina u liste tasks. Drugim riječima, želimo pohraniti 5 Task
+objekata koji će izvršavati korutine korutina(n), za n od 1 do 5.
+"""
+
+async def main():
+    tasks = []
+    
+    for i in range(1,6):
+        task = asyncio.create_task(korutina(i))
+        tasks.append(task)
+        
+    print(tasks)
+    
+# asyncio.run(main())
+
+# Kako ovo možemo napraviti elegantnije? list comprehension nam može pomoći.
+async def main():
+    tasks = [asyncio.create_task(korutina(i)) for i in range(1, 6)]
+    print(tasks)
+    
+asyncio.run(main())
+
+"""
+Za pokretanje svih korutina konkurentno, ne želimo pisati await task za svaki Task objekt.
+Dakle, sljedeće nije najbolje rješenje:
+"""
+
+async def main():
+    tasks = [asyncio.create_task(korutina(i)) for i in range(1, 6)]
+    
+    for task in tasks:
+        await task
+    
+    print("Sve korutine su završile.")
+
+asyncio.run(main())
+
+
+"""
+Zašto? Nigdje ne pohranjujemo rezultate korutina, već samo čekamo na njihov završetak.
+Stvari možemo riješiti ovako:
+"""
+
+async def main():
+    tasks = [asyncio.create_task(korutina(i)) for i in range(1, 6)]
+    
+    results = []
+    
+    for task in tasks:
+        results.append(await task)
+    
+    print(results)
+
+asyncio.run(main())
+
+"""
+Međutim, puno bolje rješenje je koristiti asyncio.gather().
+asyncio.gather() osim može korutina može primiti i Task objekte
+možemo proslijediti jedan ili više Task objekata na isti način kao i korutine: await
+asyncio.gather(task_1, task_2, task_3)
+međutim, možemo proslijediti i listu korutina ili Task objekata s operatorom *: await
+asyncio.gather(*tasks)
+"""
+async def main():
+    tasks = [asyncio.create_task(korutina(i)) for i in range(1,6)]
+    results = await asyncio.gather(*tasks)
+    print(results)
+    
+asyncio.run(main())
+
+"""
+Pogledat ćemo još nekoliko jednostavnih primjera i mjeriti vrijeme izvođenja programa koristeći time
+modul.
+"""
+
+# Definirat ćemo korutinu koja će nakon određenog vremena ispisati poruku.
+import time 
+
+async def kaži_nakon(delay, poruka):
+    await asyncio.sleep(delay)
+    print(poruka)
+    
+async def main():
+    print(f"Početak: {time.strftime('%X')}")
+    
+    await kaži_nakon(1, "Pozdraaav!")
+    await kaži_nakon(2, "Kako si?")
+    
+    print(f"Kraj: {time.strftime('%X')}")
+    
+asyncio.run(main())
+
+# Isto možemo pretočiti u Task objekte:
+async def main():
+    print(f"Početak: {time.strftime('%X')}")
+    
+    task1 = asyncio.create_task(kaži_nakon(1, "Pozdraaav!"))
+    task2 = asyncio.create_task(kaži_nakon(2, "Kako si?"))
+    
+    await task1
+    await task2
+    
+    print(f"Kraj: {time.strftime('%X')}")
+    
+asyncio.run(main())
+
+# ili koristeći asyncio.gather()
+async def main():
+    print(f"Početak: {time.strftime('%X')}")
+    
+    task1 = asyncio.create_task(kaži_nakon(1, "Pozdraaav!"))
+    task2 = asyncio.create_task(kaži_nakon(2, "Kako si?"))
+    
+    await asyncio.gather(task1, task2)
+    
+    print(f"Kraj: {time.strftime('%X')}")
+    
+asyncio.run(main())
+
+"""
+Primjer: Idemo vidjeti kako možemo na isti način koristiti asyncio.gather() za pozivanje prethodne
+korutine Timer(name, delay) koja simulira otkucaje timera svake sekunde. Korutinu želimo pokrenuti 3
+puta s različitim vremenima trajanja. Potrebno je definirati Task objekte i pohraniti ih u listu tasks, a zatim
+koristiti asyncio.gather() za pokretanje svih korutina konkurentno.
+"""
+
+async def timer(name, delay):
+    for i in range(delay, 0, -1):
+        print(f"{name}: {i} sekundi preostalo...")
+        await asyncio.sleep(1)
+    print(f"{name}: Vrijeme je isteklo!")
+    
+async def main():
+    timers = [
+        asyncio.create_task(timer("Timer 1", 3)),
+        asyncio.create_task(timer("Timer 2", 5)),
+        asyncio.create_task(timer("Timer 3", 7))
+    ]
+    
+    await asyncio.gather(*timers)
+    
+asyncio.run(main())
