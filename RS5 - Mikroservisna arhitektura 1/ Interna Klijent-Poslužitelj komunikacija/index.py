@@ -16,9 +16,9 @@ async def start_server():
     print("Poslužitelj sluša na http://localhost:8080")
     
 async def main():
-    await start_server() # Prvo pokreni poslužitelj
-    async with aiohttp.ClientSession() as session: # Zatim otvori klijentsku sesiju
-        rezultat = await session.get('http://localhost:8080/korisnici') # Pošalji GET zahtjev
-        print(await rezultat.text()) # Ispis odgovora
+    await start_server() 
+    async with aiohttp.ClientSession() as session: 
+        rezultat = await session.get('http://localhost:8080/korisnici') 
+        print(await rezultat.text()) 
 
-asyncio.run(main()) # Pokreni main korutinu
+asyncio.run(main()) 
