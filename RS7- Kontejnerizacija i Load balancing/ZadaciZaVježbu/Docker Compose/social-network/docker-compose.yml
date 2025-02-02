@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  authAPI:
+    image: authapi:1.0
+    build: ./authAPI
+    ports:
+      - "5001:5000"
+    networks:
+      - social_network
+
+  socialAPI:
+    image: socialapi:1.0
+    build: ./socialAPI
+    ports:
+      - "3500:3500"
+    networks:
+      - social_network
+    depends_on:
+      - authAPI
+
+networks:
+  social_network:
+    driver: bridge
